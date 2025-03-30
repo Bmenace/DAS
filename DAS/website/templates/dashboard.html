@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+{% block content %}
+{% load static %}
+
+<h1>Dashboard</h1>
+
+<!-- Year & Semester Dropdown (Combined) -->
+<form method="GET" id="yearSemesterForm">
+    <select name="year_semester" onchange="this.form.submit()" class="classic-dropdown">
+        {% for record in year_records %}
+            <option value="{{ record.year }}-{{ record.semester }}" 
+                {% if record.year == selected_year and record.semester == selected_semester %}selected{% endif %}>
+                Year {{ record.year }} - Semester {{ record.semester }}
+            </option>
+        {% endfor %}
+    </select>
+</form>
+
+
+<!-- Card for Registered Students & Units -->
+<div class="card-container">
+    <div class="classic-card">
+        <h3>Registered Students</h3>
+        <p>{{ students_count }}</p>
+    </div>
+
+    <div class="classic-card">
+        <h3>Total Units</h3>
+        <p>{{ total_units }}</p>
+    </div>
+</div>
+
+<h3>Registered Students</h3>
+<table class="classic-table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Student ID</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for student in students %}
+        <tr>
+            <td>{{ student.name }}</td>
+            <td>{{ student.student_id }}</td>
+            <td>
+                <button class="view-progress-btn" onclick="viewStudentProgress('{{ student.id }}', '{{ student.name }}', '{{ selected_year }}', '{{ selected_semester }}')">
+                        View Progress
+                </button>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+
+<div id="student-progress-card" class="card">
+    <h3 id="student-name-title"></h3>
+    <div class="charts-container"></div>
+    <button id="close-button" onclick="closeProgressCard()" style="display: none;">Close</button>
+</div>
+
+
+
+<!-- Unit Progress Section -->
+<h3>Unit Progress</h3>
+<div class="progress-container">
+    <div id="student-progress-card" class="card" style="display: none; position: absolute; top: 50px; left: 50%; transform: translateX(-50%); width: 300px;">
+        <h3 id="student-name-title"></h3>
+        <div id="unit-pie-charts"></div>
+        <button onclick="closeProgressCard()">Close</button>
+    </div>
+
+    {% for unit in unit_progress %}
+        <div class="progress-bar-wrapper">
+            <span>{{ unit.name }}</span>
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: {{ unit.progress }}%;">
+                    <span class="progress-text">{{ unit.progress|floatformat:1 }}%</span>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+
+
+<!-- Include Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<!-- Include jQuery for AJAX -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- Include JavaScript for Timetable -->
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+{% block js_block %}
+<script src="https://unpkg.com/html5-qrcode"></script>
+<script src="{% static 'js/dashboard.js' %}"></script>{% endblock %}
+
+
+
+{% endblock %}

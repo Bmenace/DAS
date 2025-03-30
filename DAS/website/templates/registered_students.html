@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="container-fluid px-4">
+    <h1 class="text-center mb-4" style="color: #4a90e2; font-weight: 600;">Registered Students</h1>
+
+    <div class="table-responsive">
+        <table class="table table-striped shadow rounded">
+            <thead class="table-primary">
+                <tr>
+                    <th>#</th>
+                    <th>Student ID</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="registered-students-table">
+                <!-- Registered students will be loaded here -->
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% block js_block %}
+<script src="{% static 'js/registered_students.js' %}"></script>{% endblock %}
+
+
+
+{% endblock %}

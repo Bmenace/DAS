@@ -1,0 +1,114 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://unpkg.com/html5-qrcode"></script>
+    <link rel="stylesheet" href="{% static 'css/select_lectures.css' %}">
+
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center">Attendance System</h1>
+        <div class="d-flex justify-content-center gap-2">
+            <span class="badge bg-primary badge-pill">Year: {{ year_record.year }}</span>
+            <span class="badge bg-secondary badge-pill">Semester: {{ year_record.semester }}</span>
+        </div>
+
+        <div class="mb-3">
+            <label for="year"  hidden class="form-label">Year Record: {{ year_record }}</label>
+            <input
+                type="text"
+                id="year_record"
+                name="year_record"
+                class="form-control"
+                value="{{ year_record.id }}"
+                readonly
+                hidden
+            >
+        </div>
+            <label for="year"  hidden class="form-label">Semester {{ year_record.semester }}</label>
+            <input
+                type="text"
+                id="semester"
+                name="semester"
+                class="form-control"
+                value="{{ semester }}"
+                readonly
+                hidden
+            >
+        </div>
+            <label for="year"  hidden class="form-label">Year {{ year_record.year }}</label>
+            <input
+                type="text"
+                id="year"
+                name="year"
+                class="form-control"
+                value="{{ year_record.id }}"
+                readonly
+                hidden
+            >
+        </div>
+
+        <div class="mb-3">
+            <label for="unit_name" class="form-label">Unit Name</label>
+            <input type="text" id="unit_name" name="unit_name" class="form-control" value="{{ unit.name }}" readonly>
+        </div>
+        
+        <div class="mb-3">
+            <label for="lecture_id" class="form-label">Lecture</label>
+            <select id="lecture_id" name="lecture_id" class="form-control">
+                {% for lecture in lectures %}
+                <option value="{{ lecture.id }}">{{ lecture.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="qr-section">
+            <div id="qrScanner" style="width: 500px;" class="mb-4"></div>
+        </div>
+
+        <h3>Students</h3>
+        <div class="table-responsive">
+            <table id="attendanceTable" class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Student ID</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="studentsTableBody"></tbody>
+            </table>
+        </div>
+
+        <div class="text-center mt-3">
+            <button id="saveAttendanceBtn" class="btn btn-primary">Save Attendance</button>
+        </div>
+
+        <div id="savedAttendanceSection" class="mt-5">
+            <h3>Saved Attendance Records</h3>
+            <div class="table-responsive">
+                <table id="bigAttendanceTable" class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Student ID</th>
+                            <th>Student Name</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    {% block js_block %}
+    <script src="https://unpkg.com/html5-qrcode"></script>
+    <script src="{% static 'js/select_lectures.js' %}"></script>{% endblock %}
+
+</body>
+</html>

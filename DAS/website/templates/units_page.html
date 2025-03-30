@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container py-4">
+    <h1 class="text-center mb-4" style="color: #4a90e2; font-weight: 600;">Manage Units</h1>
+    <h2 class="text-center text-muted">Units for Year {{ year }}, Semester {{ semester }}</h2>
+<div class="card shadow p-4 mb-4">
+    {% if messages %}
+        <div class="alert-container">
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <form method="POST">
+        {% csrf_token %}
+        <div class="input-group">
+            <input type="text" name="unit_name" class="form-control" placeholder="Enter unit name" required>
+            <button type="submit" class="btn btn-primary rounded-pill px-4 py-2">Add Unit</button>
+        </div>
+    </form>
+</div>
+
+    <div class="row">
+        {% for unit in units %}
+        <div class="col-md-4 mb-3">
+            <div class="card shadow p-3">
+                <div class="card-body text-center">
+                    <h5 class="card-title">{{ unit.name }}</h5>
+                    <div class="d-flex justify-content-center gap-2 mt-3">
+                        <!-- View Details Button -->
+                        <form method="POST" action="{% url 'select_lectures' %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="unit_id" value="{{ unit.id }}">
+                            <button type="submit" class="btn btn-success rounded-pill px-4 py-2">Details</button>
+                        </form>
+                        <!-- Delete Button -->
+                        <form method="POST" action="{% url 'delete_unit' unit.id %}" onsubmit="return confirmDelete(event, '{{ unit.name }}')">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger rounded-pill px-4 py-2">Delete</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+            <p class="text-center text-muted">No units available for this Year & Semester.</p>
+        {% endfor %}
+    </div>
+</div>
+<script>
+    function confirmDelete(event, unitName) {
+        let confirmation = confirm(`Are you sure you want to delete the unit: "${unitName}"?`);
+        if (!confirmation) {
+            event.preventDefault(); // Stop form submission if user cancels
+        }
+    }
+</script>
+{% endblock %}

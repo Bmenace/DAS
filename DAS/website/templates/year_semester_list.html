@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1 class="text-center">Year-Semester List</h1>
+
+<div class="row">
+    {% for year_semester in year_semesters %}
+    <div class="col-md-4 mb-3">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Year {{ year_semester.year }} - Semester {{ year_semester.semester }}</h5>
+                <a href="{% url 'attendance_page' year_semester.year year_semester.semester %}" class="btn btn-primary">View Units and Attendance</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+{% endblock %}

@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="card p-4 shadow-lg">
+        <h2 class="text-center mb-4">Register</h2>
+
+        <form method="POST" id="register-form">
+            {% csrf_token %}
+            
+
+            <div id="student-fields">
+                <div class="mb-3">
+                    <input type="text" class="form-control" name="firstname" placeholder="First name" required>
+                </div>
+                <div class="mb-3">
+                    <input type="text" class="form-control" name="username" placeholder="Username(fill course & year)" required>
+                </div>
+                <div class="mb-3">
+                    <input type="email" class="form-control" name="email" placeholder="Email" required>
+                </div>
+                <div class="mb-3">
+                    <input type="password" class="form-control" name="password1" placeholder="Password" required>
+                </div>
+                <div class="mb-3">
+                    <input type="password" class="form-control" name="password2" placeholder="Confirm Password" required>
+                </div>
+                
+                <!-- Additional Fields for Class Reps -->
+                <div class="mb-3">
+                    <input type="text" class="form-control" name="college" placeholder="College" required>
+                </div>
+                <div class="mb-3">
+                    <input type="text" class="form-control" name="department" placeholder="Department" required>
+                </div>
+                <div class="mb-3">
+                    <input type="text" class="form-control" name="course" placeholder="Course" required>
+                </div>
+                
+                <button type="submit" class="btn btn-primary w-100">Register</button>
+            </div>
+        </form>
+
+        {% if messages %}
+        <div class="alert alert-dismissible fade show mt-3">
+            {% for message in messages %}
+            <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}" role="alert">
+                {{ message }}
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+    </div>
+</div>
+
+
+{% endblock %}

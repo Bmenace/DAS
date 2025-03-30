@@ -1,0 +1,43 @@
+/* Sidebar Styles */
+    .sidebar {
+      background: rgba(255, 255, 255, 0.9); /* Light background with transparency */
+      backdrop-filter: blur(10px); /* Blur effect */
+      border-right: 1px solid rgba(0, 0, 0, 0.1);
+      box-shadow: 2px 0 10px rgba(0, 0, 0, 0.05);
+    }
+
+    /* Sidebar Header */
+    .offcanvas-header {
+      background: #4a90e2;
+      color: white;
+      padding: 15px;
+      text-align: center;
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    /* Sidebar Links */
+    .nav-link {
+      color: #333;
+      font-weight: 500;
+      padding: 12px 15px;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+    }
+
+    .nav-link:hover, .nav-link.active {
+      background: #4a90e2;
+      color: white;
+    }
+
+    /* Icons Styling */
+    .nav-link i {
+      margin-right: 10px;
+      font-size: 18px;
+    }
+
+    /* Close Button */
+    .btn-close {
+      background: white;
+      opacity: 0.8;
+    }

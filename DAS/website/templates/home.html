@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    
+    <div class="content">
+        <div class="header">
+            <h1>Digital Attendance System</h1>
+            <p>Manage and monitor attendance efficiently with QR codes.</p>
+        </div>
+
+        <!-- Card Container -->
+        <div class="card-container mb-4">
+            <a href="{% url 'register_students' %}" class="card-link">
+                <div class="card" id="registerCard">
+                    <img src="{% static 'images/add-user-male (1).png' %}" alt="Register">
+
+                    <h3>Register Students</h3>
+                </div>
+            </a>
+
+            <a href="{% url 'registered_students' %}" class="card-link">
+                <div class="card" id="registerCard">
+                    <img src="https://img.icons8.com/ios-filled/50/4a90e2/student-male.png" alt="Register">
+                    <h3>Registered Students</h3>
+                </div>
+            </a>
+
+            <a href="{% url 'year_semester_page' %}" class="card-link">
+                <div class="card">
+                    <img src="https://img.icons8.com/ios-filled/50/4a90e2/calendar.png" alt="Mark Attendance">
+                    <h3>Select Year of Study</h3>
+                </div>
+            </a>
+
+            <a href="{% url 'year_semester_list' %}" class="card-link">
+                <div class="card">
+                    <img src="https://img.icons8.com/ios-filled/50/4a90e2/checked-checkbox.png" alt="Mark Attendance">
+                    <h3>Records</h3>
+                </div>
+            </a>
+            
+            <a href="{% url 'dashboard' %}" class="card-link">
+                <div class="card">
+                    <img src="https://img.icons8.com/ios-filled/50/4a90e2/combo-chart.png" alt="Mark Attendance">
+                    <h3>Dashboard</h3>
+                </div>
+            </a>
+
+        </div>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,70 @@
+{% load custom_filters %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attendance Records</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
+
+    <link rel="stylesheet" href="{% static 'css/attendance_page.css' %}">
+</head>
+<body>
+
+    <h1>Attendance Records</h1>
+    <h1 class="text-center">Attendance for year {{ year_record.year }} Semester {{ year_record.semester }}</h1>
+    <h3 class="mt-4">Units for the Semester</h3>
+    <ul>
+        {% for unit in units %}
+            <li>{{ unit.name }}</li>
+        {% endfor %}
+    </ul>
+
+    {% for unit_name, data in attendances.items %}
+        <div class="unit-container">
+            <h2>Unit: {{ unit_name }}</h2>
+            <table id="table-{{ forloop.counter }}">
+                <thead>
+                    <tr>
+                        <th>#</th> 
+                        <th>Student ID</th>
+                        <th>Name</th>
+                        {% for lecture in data.lectures %}
+                            <th>{{ lecture }}</th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for student in data.students %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td>{{ student.id }}</td>
+                            <td>{{ student.name }}</td>
+                            {% for lecture in data.lectures %}
+                                <td class="{% if student.attendance|get_item:lecture == 'Present' %}status-present{% elif student.attendance|get_item:lecture == 'Absent' %}status-absent{% endif %}">
+                                    {{ student.attendance|get_item:lecture }}
+                                </td>
+                            {% endfor %}
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <div class="buttons">
+                <button class="btn" onclick="saveAsPDF('table-{{ forloop.counter }}', '{{ unit_name }}')">
+                    Save as PDF
+                </button>
+                <button class="btn" onclick="saveAsCSV('table-{{ forloop.counter }}', '{{ unit_name }}')">
+                    Save as CSV
+                </button>
+            </div>
+        </div>
+    {% endfor %}
+    {% block js_block %}
+    <script src="https://unpkg.com/html5-qrcode"></script>
+    <script src="{% static 'js/attendance_page.js' %}"></script>{% endblock %}
+
+</body>
+</html>
